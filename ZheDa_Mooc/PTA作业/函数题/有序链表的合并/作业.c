@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,7 +11,6 @@ typedef PtrToNode List;
 
 List Read(); /* 细节在此不表 */
 void Print( List L ); /* 细节在此不表；空链表将输出NULL */
-
 List Merge( List L1, List L2 );
 
 int main()
@@ -20,59 +18,66 @@ int main()
     List L1, L2, L;
     L1 = Read();
     L2 = Read();
-    L = Merge(L1, L2);
+	L = Merge(L1, L2);
     Print(L);
     Print(L1);
     Print(L2);
     return 0;
 }
 
-//直接使用原来的节点，那么也就是改变这些节点的指向
-//头结点是无法被使用的，因为在后面的输出是要变成NULL
-//我们应该申请两个结点把传入的两个链表的头节点拷贝，把它们的后续结点接上，再把原有的那--
-//--两个头结点的后续变为NULL
-//头节点拿出来之后就很简单了，就是把指针的next改动即可
+// 函数的参数全部都是形参,就算是传入指针,也只是传入其地址
+// 只能通过地址去修改值的大小,修改链表的顺序
 List Merge(List L1,List L2)
 {
-  List L;
-  List l1=(List)malloc(sizeof(struct Node));
-  List l2=(List)malloc(sizeof(struct Node));
-  l1->Data=L1->Data;
-  l1->Next=L1->Next;
-  l2->Data=L2->Data;
-  l2->Next=L2->Next;
-  L1=NULL;L2=NULL;
-
-  if((l1->Data)<(l2->Data)){
-    L=l1;
-    l1=l1->Next;
-  }
-  else if((l2->Data)<(l1->Data)){
-    L=l2;
-    l2=l2->Next;
-  }else{
-    L=l1;
-    l1=l1->Next;
-    l2=l2->Next;
-  }
-
-  while(l1&&l2){
-    if((l1->Data)<(l2->Data)){
-      L->Next=l1;
-      l1=l1->Next;
-    }else if((l2->Data)<(l1->Data)){
-      L->Next=l2;
-      l2=l2->Next;
+  List L=(List)malloc(sizeof(struct Node));
+  List PtrL1,PtrL2,PtrL;
+  PtrL=L;
+  PtrL1=L1->Next;
+  PtrL2=L2->Next;//原链表带头节点
+  while(PtrL1&&PtrL2){
+    if((PtrL1->Data)<=(PtrL2->Data)){
+      PtrL->Next=PtrL1;
+      PtrL1=PtrL1->Next;
+      PtrL=PtrL->Next;
     }else{
-      L->Next=l1;
-      l1=l1->Next;
-      l2=l2->Next;
+      PtrL->Next=PtrL2;
+      PtrL2=PtrL2->Next;
+      PtrL=PtrL->Next;
     }
   }
-  for(;l1;l1=l1->Next)
-    L->Next=l1;
-  for(;l2;l2=l2->Next)
-    L->Next=l2;
-
+  PtrL->Next=PtrL1?PtrL1:PtrL2;
+  //跳出while循环就只有一个链表完了,另外一个链表还存在且是有顺序的！
+  L1->Next=NULL;//带头节点的链表，如此就完成了“空表”
+  L2->Next=NULL;
   return L;
+}
+
+List Read()
+{
+  int size;
+  scanf("%d",&size);
+  if(size==0){
+  	printf("Error!");
+  	return NULL;
+  }
+
+  List Node,Head,temp;
+  Head=Node=(List)malloc(sizeof(struct Node));
+  while(size--){
+  	temp=(List)malloc(sizeof(struct Node));
+    scanf("%d",&temp->Data);
+    Node->Next=temp;
+    Node=Node->Next;
+  }
+  Node->Next=NULL;
+  return Head;
+}
+
+void Print(List L)
+{
+  while(L){
+    printf("%d ",L->Data);
+    L=L->Next;
+  }
+  printf("\n");
 }
