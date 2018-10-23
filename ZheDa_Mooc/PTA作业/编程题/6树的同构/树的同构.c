@@ -57,16 +57,23 @@ Tree BuildeTree( TreeNodeArray Tree[]  )
     return  Root ;
 }
 
-
+/*
+  递归的基本情况----1
+    两个点之间的对比，可以推广到任意的两点
+  利用基本情况做的分类讨论----2
+    大类就只有这三种：左左相等右右比较，左左不等交换比较，单边比较
+*/
 int Isomorphic(  Tree Root1,Tree Root2 )
 {
-    if( (Root1== Null) && (Root2== Null)  )
+    /*-------1*/
+    if( (Root1== Null) && (Root2== Null)  )//都是空树
          return 1 ;
-    if( ((Root1== Null)&&(Root2!= Null)) || ((Root1!= Null)&&(Root2 == Null)) )
+    if( ((Root1== Null)&&(Root2!= Null)) || ((Root1!= Null)&&(Root2 == Null)) )//一个空一个非空
         return 0 ;
-    if( Tree1[Root1].Element != Tree2[Root2].Element  )
+    if( Tree1[Root1].Element != Tree2[Root2].Element  )//都不是空树，判断根是否相等
         return 0 ;
 
+    /*-------2*/
     if(  (Tree1[Root1].Left ==  Null) && (Tree2[Root2].Left== Null) )
         return Isomorphic( Tree1[Root1].Right,Tree2[Root2].Right ) ;
 
