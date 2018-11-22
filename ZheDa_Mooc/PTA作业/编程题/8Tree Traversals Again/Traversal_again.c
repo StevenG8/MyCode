@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include <string.h> 
+#include <string.h>
 #include <stdlib.h>
 
 //全局变量
-int Altogetherlength; 
+int Altogetherlength;
 
 //堆栈的声明
 #define Error 0
@@ -49,7 +49,7 @@ ELementType Pop(Stack S)
 
 
 
-//if(str=="Push")这样子写是错的，因为字符串是引用对象而不是数据类型，比较的是地址而不是内容  
+//if(str=="Push")这样子写是错的，因为字符串是引用对象而不是数据类型，比较的是地址而不是内容
 int ReadData(int* Pre,int* In)
 {
   char str[5];
@@ -76,32 +76,32 @@ int ReadData(int* Pre,int* In)
 }
 
 void PostTraversal(int* Pre,int* In,int OriginLength)
-{ 
-  if(OriginLength==0) //空树情况 
+{
+  if(OriginLength==0) //空树情况
   	return;
-  if(OriginLength==1){//只有一个根直接输出 
-  	if(Altogetherlength==1)	 
+  if(OriginLength==1){//只有一个根直接输出
+  	if(Altogetherlength==1)//如果总长度是单个结点，那么输出不带空格 
 	  printf("%d",Pre[0]);
   	else
 	  printf("%d ",Pre[0]);
   	return;
   }
-  
+
   int root=Pre[0];
   int Sublength=0;
   while(root!=In[Sublength]){
-  	Sublength++;	
+  	Sublength++;
   }
-  
+
   //left
   PostTraversal(&Pre[1],In,Sublength);
   //right
   PostTraversal(&Pre[Sublength+1],&In[Sublength+1],OriginLength-Sublength-1);
   //root
-  if(Altogetherlength==OriginLength)
-  	printf("%d",Pre[0]);	
-  else 
-  	printf("%d ",Pre[0]); 
+  if(Altogetherlength==OriginLength)//后序遍历根结点最后输出，要把空格去掉
+  	printf("%d",Pre[0]);
+  else
+  	printf("%d ",Pre[0]);
 }
 
 int main()
@@ -109,5 +109,6 @@ int main()
   int Pre[Maxsize],In[Maxsize];
   int length=Altogetherlength=ReadData(Pre,In);
   PostTraversal(Pre,In,length);
+	printf("test\n");
   return 0;
 }
