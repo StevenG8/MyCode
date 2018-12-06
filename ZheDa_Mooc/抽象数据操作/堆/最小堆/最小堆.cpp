@@ -80,7 +80,8 @@ ElementType DeleteMin(PriorityQueue H)
     parent结点不到最后执行完毕永远是空的，等待最小的结点插入
     整个过程就像是把头给拿出来丢掉，把最后一个位置的结点拿出来，然后其他的部分按顺序顶替上去，最后把拿出来的结点再插回去
   */
-  for(parent=1 ; parent*2 < H->size ; parent=child){//parent*2 < H->size,一直执行到这颗完全二叉树的最底层
+  for(parent=1 ; parent*2 <= H->size ; parent=child){//parent*2 <= H->size,一直执行到这颗完全二叉树的最底层
+  //这里是小于或等于，否则就会出错 
 
     /*--------------找出根节点中，左右子树哪个最小--------------*/
     //考虑完全二叉树的形状，如果一棵树只有单个结点，那么这单个结点就是最后的结点

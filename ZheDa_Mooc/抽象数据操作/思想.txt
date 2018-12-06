@@ -6,9 +6,56 @@
 //既然传入参数是一样，那么输入数组的两头的下标是一个非常好的想法，等同将数组不断划分
 //最后确定一下当切分到足够小的时候该如何处理即可
 
+//下面这个是老师给的建立完全二叉树的代码
+/*
+  //初始传入应该这样子写：CompleteBinaryTree(0,num-1,0);
+
+  //传入数据数组A的左下标，右下标，二叉树数组T的根节点下标
+  void CompleteBinaryTree(int Aleft,int Aright,int Troot)
+  {
+    int num=Aright-Aleft+1;//算出数组长度
+    if(num==0)  return;//递归的基准
+    int leftNum=getleftNum(num);//求出这个总数目下左子树的结点个数（因为完全二叉树的形状是固定的）
+    T[Troot]=A[Aleft+leftNum];//将数据数组A的根节点的值存放到二叉树数组T的相应根节点位置
+    int leftroot=Troot*2+1;//算出这个结点下左结点在二叉树数组T的下标值
+    int rightroot=leftroot+1;
+    CompleteBinaryTree(Aleft,Aleft+leftNum-1,leftroot);//递归
+    CompleteBinaryTree(Aleft+LeftNum+1,Aright,rightroot);
+  }
+*/
+
+
+
+
 
 /*
-指针是存放地址的变量，而且它是有自己的地址的
+Tree BuildTree(Tree T)
+{
+	T=(Tree)malloc(sizeof(struct BinaryTree));
+	return T;
+}
+
+int main()
+{
+	Tree T=NULL;
+	printf("%p\n",T);
+	BuildTree(T);
+	printf("%p\n",T);//NULL
+	T=BuildTree(T);
+	printf("%p\n",T);//具体地址
+	return 0;
+}
+  这里需要特别注意，
+  函数永远传的是形参，指针也不特殊，
+  只不过它传的形参是地址。通过地址修改值我们完成了赋值。
+  但是，如果是传一个NULL指针进去，然后malloc，他所做的事情是这样的：
+  函数内部生成一个指针T，这个指针所指向的地址是NULL
+  malloc一个新的指针所指向的数据类型的存放空间，然后把这个空间的地址赋值给了形参T，然后返回这个地址
+  但如果你不在函数外对指针进行赋值，这个指针离开函数还是NULL（指针并没有传自身的地址，而是数据的地址）
+*/
+
+/*
+指针是存放地址的变量，然而它是有自己的地址的
 也就是说，指针里面赋值的是一个地址A，而指针自己本身是地址B
 指针与指针的赋值其实跟普通变量的赋值没有很大的区别，区别只在于指针的赋值是地址
 任何一个申请的变量的地址我们是无法去改变的，只能改变这个地址上存放的数据
@@ -22,13 +69,7 @@ free()释放的是指针指向的内存！注意！释放的是内存，不是指针！
 */
 
 
-/*
-  int i=1;
-  int a=i++;
-  int b=++i;
-  第二行中，a=1，i=i+1=2；
-  第三行中，b=i+1=2+1=3；
-*/
+
 
 
 /*
@@ -36,14 +77,21 @@ free()释放的是指针指向的内存！注意！释放的是内存，不是指针！
 */
 
 
+
+
+
 //------优秀的代码有普适性,推广性
 //就像数学里的自变量x,f(x)==(x=sint)==f(sint),f(x)==(x=cosu)==f(cosu).
 //函数的输入参数可以是简单的单个数据,也可以是树,也可以是结构
 //你在构建这个函数的时候只需要将它抽象为简单的单个数据即可
 //输入参数类型的变化导致的变动普遍不会很大,修修补补即可
+
 //但需注意:
-//若是在树这样的数据结构中,输入参数从简单的单个数据改成了树,就基本不能用.
-//除非是能保证不会树中插树(最小堆(完全二叉树)的哈夫曼应用,!!把树插到数组对应位置而不是插到树的子树上,是链式结构和顺序结构的混用!!)
+//----------普适性的缺陷性就是：不能插入自身的结构，否则混乱-----------------
+//比如在树这样的数据结构中,输入参数从简单的单个数据改成了树,就基本不能用.除非是能保证不会树中插树
+//最小堆(完全二叉树)的哈夫曼应用,把树插到数组对应位置而不是插到树的子树上，是链式结构和顺序结构的混用，而不是自身结构的调用
+
+
 
 
 
@@ -68,3 +116,65 @@ SetName DiminishFindRoot(Settype A[],ElementType X)
   //只是多做了一个赋值,而这里的赋值的意义仅仅是将其最终结果作为其父节点
 
 }
+
+
+
+
+
+/*
+//指针不要随便指向，需要分情形，当同个内容却有两个不同的用途且彼此会冲突时
+//要新申请一个新的指针，内容跟原指针一样即可
+  比如说每次都是在数组的固定位置（即地址固定）弹出数据然后数组进行变化后再到固定位置弹出
+  那么如果是以指针指向数组的固定位置返回，则每次返回的都是同一地址，最后就会乱了！
+//！！！！！！
+//总结，数组的元素要指针返回，最好malloc复制而不是指向该地址
+//for the reason of（数组通常弹出一个数据会改变其数组的元素顺序和内容）
+*/
+
+
+
+
+
+//这里要注意如果是直接for循环，继续条件是i<H->size是不行的
+//因为这里DeleteMin这个函数本来就是使H->size变小，循环的步长就会受影响
+//要小心循环内部会引起步长变化的函数
+/*
+HTree BuildHuffmanTree(MinH H)
+{
+  HTree T;
+  int times=H->size;//最小堆元素总数
+  for(int i=1;i<times;i++){//两两拿出建树再插回去，N个元素就要执行N-1次
+    T=(HTree)malloc(sizeof(struct HuffmanTree));//malloc应该循环里面,如果在循环外面会把前面写的数据重写
+    T->left=DeleteMin(H);
+    T->right=DeleteMin(H);
+    T->weight = (T->left->weight) + (T->right->weight);
+    MinHTInsert(H,T);
+  }
+  T=DeleteMin(H);
+  return T;
+}
+*/
+
+
+/*
+  for(int i=1;i<times;i++){
+      T=(HTree)malloc(sizeof(struct HuffmanTree));
+      //malloc应该循环里面,如果在循环外面会把前面写的数据重写
+      T->left=DeleteMin(H);
+      T->right=DeleteMin(H);
+      T->weight = (T->left->weight) + (T->right->weight);
+      MinHTInsert(H,&T);
+  }
+  注意这里最后一行的代码，要传入T的地址，用指针的指针
+  在关于树的指针A中，很容易传入这棵树的左子树B1，右子树B2，只需要传入指针A所指向的地址就可以
+  但是这里并没有传入这棵树自身的地址，就很容易导致在建树的时候缺失头节点，也就没有完成建树
+  要把根节点自身的地址也传过去，也就是根节点，要用指针的指针。
+  void MinHTInsert(MinH H,HTree *T)
+  {
+    int pos;
+    for(pos = ++H->size ; (*T)->weight < H->T[pos/2]->weight ; pos/=2)
+      H->T[pos]= H->T[pos/2]; //交换所指向的地址
+    H->T[pos] = *T;
+  }
+
+*/

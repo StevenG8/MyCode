@@ -1,0 +1,69 @@
+/*
+  typedef int ElementType;
+  typedef struct{
+    ElementType Data;
+    int parent;//其集合所属
+  }SetType;//这里既完成了宏的定义,也完成了结构体的声明.
+  //申请声明结构体不需要写struct SetType X,直接写SetType X即可
+*/
+
+/*
+  int i=1;
+  int a=i++;
+  int b=++i;
+  第二行中，a=1，i=i+1=2；
+  第三行中，b=i+1=2+1=3；
+*/
+
+//高维数组：高维是指针，指向低维数组的头
+/*
+int main()
+{
+	char a[3][10];
+
+	//a[0]与a[0][0]地址是相同的，a[0]是指针
+	//第一维是指针，第二维是数组
+
+	scanf("%s",a[0]);
+	scanf("%s" , &(a[1][0]) );
+	scanf("%s",&a[2][0]); //符号的先后执行顺序不影响
+
+	printf("a[0]地址：%p\n",a[0]);
+	printf("a[0][0]地址：%p\n",&(a[0][0]));
+
+	print(a[0]);
+
+	for(int j=0;j<3;j++){
+		printf("%s\n",a[j]);
+	}
+
+	for(int j=0;j<3;j++){
+		printf("%s\n",&a[j][0]);//字符串传入的是地址
+	}
+
+	return 0;
+}
+void print(char s[])
+{
+	printf("%s",s);
+}
+*/
+
+
+
+
+//指针的数组申请
+//malloc用于申请一块连续的指定大小的内存块区域以void*类型返回分配的内存区域地址（申请空间并返回其地址）
+/*
+MinH CreateMinheap(int num)
+{
+  MinH H=(MinH)malloc(sizeof(struct MinHeap));
+  H->size=0;
+  H->T=(HTree *)malloc((num+1)*sizeof(HTree));//指针的指针，指针数组malloc
+  for(int i=0;i<num+1;i++){
+  	H->T[i]=(HTree)malloc(sizeof(struct HuffmanTree));//数组里面的每个元素的malloc
+  }
+  H->T[0]->weight=MinNum;
+  return H;
+}
+*/
