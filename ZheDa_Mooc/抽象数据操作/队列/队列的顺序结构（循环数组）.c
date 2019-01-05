@@ -54,3 +54,60 @@ int DeleteQ(Queue Q)
     return Q->Data[Q->Front];
   }
 }
+
+
+
+/**********自己写的**************/
+/***********************队列****************************/
+typedef struct QNode *Queue;
+struct QNode{
+  int Data[Maxsize+1];
+  int head;
+  int rear;//rear是end,也就是尾指针但是这个指针指向的地方是无赋值在等待赋值的
+};
+
+Queue CreateQueue()
+{
+  Queue Q=(Queue)malloc(sizeof(struct QNode));
+  Q->head = Q->rear =0;//当前头和尾的下标
+}
+
+bool IsEmpty(Queue Q)
+{
+  return Q->head == Q->rear;
+}
+
+bool IsFull(Queue Q)
+{
+  return (Q->rear+1)%(Maxsize+1)==Q->head;
+}
+
+void EnQueue(int Vertex,Queue Q)
+{
+  if(IsFull(Q)){
+    printf("ERROR\n");
+    return;
+  }
+  if(Q->rear == Maxsize){//队列数组的尾巴,要从头开始
+    Q->Data[Maxsize]=Vertex;
+    Q->rear=0;
+  }else{
+    Q->Data[Q->rear++]=Vertex;
+  }
+}
+
+int DeQueue(Queue Q)
+{
+  int ReturnVal;
+  if(IsEmpty(Q)){
+    printf("ERROR\n");
+    return ERROR;
+  }
+  if(Q->head == Maxsize){//队列数组的尾巴,要从头开始
+    ReturnVal=Q->Data[Maxsize];
+    Q->head=0;
+  }else{
+    ReturnVal=Q->Data[Q->head++];
+  }
+  return ReturnVal;
+}

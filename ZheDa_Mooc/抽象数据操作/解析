@@ -21,7 +21,7 @@ int main()
 {
 	char a[3][10];
 
-	//a[0]与a[0][0]地址是相同的，a[0]是指针
+	//a[0]与&a[0][0]地址是相同的，a[0]是指针
 	//第一维是指针，第二维是数组
 
 	scanf("%s",a[0]);
@@ -67,3 +67,71 @@ MinH CreateMinheap(int num)
   return H;
 }
 */
+
+
+//键盘输入流的格式问题
+/*
+  scanf("%c %c",&a,&b);//像这样中间有空白符的，输入会自动找到char类型的输入进行赋值
+  //也就是说不管你的输入中间有多少个空白符或者没有，都是可以的
+  printf("%c %c\n",a,b);
+
+  scanf(" %c %c",&a,&b);//告诉机器我的输入前面有空白符要跳过（前面输入完毕的回车会影响）
+  printf("%c %c\n",a,b);
+
+  scanf(" %c%c",&a,&b);//像这样中间没有空白符的，空白符都会被算入也就是你输入什么就赋值什么；
+  printf("%c %c\n",a,b);
+
+  scanf("%c%c",&a,&b);//这里没吸收到前面输入结束的回车
+  printf("%c %c\n",a,b);
+*/
+
+
+
+
+
+//函数的指针,用于调用函数和作为函数参数
+/*
+
+typedef void(*Fun)(int);
+//宏定义,将类型为" void 函数名(int) "的函数类型指针起名为Fun;
+
+void Function(int x)//函数原型
+{
+	printf("%d\n",x);
+}
+
+void MyFun1(Fun F,int x)//传入一个函数和一个int类型数据
+{
+	F(x);//调用函数Function
+}
+
+void MyFun2(void(*kkk)(int),int x)
+{//中间的kkk只是给 “void 函数名（int） ”这种类型的函数起个名字，无伤大雅
+ //只要在main函数确定传入的是想要的函数function即可
+	kkk(x);
+}
+
+int main()
+{
+	Fun F;//声明一个函数指针,其类型为" void 函数名(int) "
+	int a=44;
+	Function(a);
+	F=&Function;//这个函数指针指向函数Function
+	(*F)(a);//调用Function函数
+	MyFun1(Function,a);//函数中传入函数
+	MyFun2(Function,a);//函数中传入函数
+	return 0;
+}
+
+void(*VisitFunc)(VertexType v);
+1，按运算符优先级， VisitFunc 先与* 结合， 说明VisitFunc是个指针
+2，然后(*VisitFunc) 与后面的 ()结合， 说明*VisitFunc 是个函数
+总结： VisitFunc 是个指向函数的指针， 函数的返回类型是void， 参数是VertexType
+
+*/
+
+
+
+
+//段错误是指访问的内存超出了系统给这个程序所设定的内存空间
+//例如访问了不存在的内存地址、访问了系统保护的内存地址、访问了只读的内存地址等等情况。

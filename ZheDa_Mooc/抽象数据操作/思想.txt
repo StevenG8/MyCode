@@ -176,5 +176,8 @@ HTree BuildHuffmanTree(MinH H)
       H->T[pos]= H->T[pos/2]; //交换所指向的地址
     H->T[pos] = *T;
   }
-
 */
+
+
+
+//树的先序遍历是堆栈,树的层遍历是队列
