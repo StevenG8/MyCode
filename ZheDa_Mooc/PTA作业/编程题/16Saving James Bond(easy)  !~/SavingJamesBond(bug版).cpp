@@ -102,8 +102,8 @@ void BuildGraph(LGraph graph,Coordinate Site[],int DotNum,int range)
   //岛到鳄鱼的联通
   for(i=1;i<DotNum;i++){
     distance=FirstStep(Site[i].x,Site[i].y);
-    if(distance<=range){//可以从岛上直接跳到鳄鱼身上
-	  E->v1=0;
+    if(distance<range){//可以从岛上直接跳到鳄鱼身上
+	    E->v1=0;
       E->v2=i;
       E->weight=(WeightType)distance;
       InsertEdge(E,graph);
@@ -112,17 +112,15 @@ void BuildGraph(LGraph graph,Coordinate Site[],int DotNum,int range)
 
   //鳄鱼之间的连通
   for(i=1;i<DotNum;i++){
-    if( (Site[i].x)!=0 && (Site[i].y)!=0 ){//不是异常点才进行检查联通
-      for(j=i+1;j<DotNum;j++){//遍历每个鳄鱼结点建立联系
-          distance=CalculateDistance(Site[i].x, Site[i].y, Site[j].x, Site[j].y);
-          if(distance<range){
-            E->v1=i;
-            E->v2=j;
-            E->weight=(WeightType)distance;
-            InsertEdge(E,graph);
-    //        printf("在%d与%d之间建立边\n",i,j);
-          }
-      }
+    for(j=i;j<DotNum;j++){//遍历每个鳄鱼结点建立联系
+        distance=CalculateDistance(Site[i].x, Site[i].y, Site[j].x, Site[j].y);
+        if(distance<range){
+          E->v1=i;
+          E->v2=j;
+          E->weight=(WeightType)distance;
+          InsertEdge(E,graph);
+  //        printf("在%d与%d之间建立边\n",i,j);
+        }
     }
   }
 }
